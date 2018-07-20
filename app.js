@@ -6,7 +6,7 @@ app.use(express.static(__dirname + '/public'));
 app.set("view engine","ejs");
 
 
-//home page
+// route for home page
 app.get("/",function(req,res){
     res.render("home");
 });
