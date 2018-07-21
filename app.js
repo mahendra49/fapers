@@ -11,6 +11,10 @@ app.get("/",function(req,res){
     res.render("home");
 });
 
+app.get("/login",function(req,res){
+  res.render("login");
+});
+
 app.get("/find", (req,res)=>{
    res.render("find"); 
 });
