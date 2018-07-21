@@ -1,3 +1,21 @@
 <% include ./partials/header %>
-<h1>This is home page</h1>
+
+<div class="fluid">
+  <% include ./partials/navbar %>
+  
+  <div class="center">
+      <h2><span class="element"><strong>I Code.</strong></span></h2>
+  </div>  
+
+</div>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function(){
+          Typed.new('.element', {
+            strings: ["<strong>Save paper!</strong>", "<strong>Find Notes.</strong>", "<strong>Find Text Books.</strong>","<strong>Save paper!</strong>","<strong>Save paper!</strong>", "<strong>Find Notes.</strong>", "<strong>Find Text Books.</strong>","<strong>Save paper!</strong>"],
+            typeSpeed: 1
+          });
+      });
+</script>
+
 <% include ./partials/footer %>
