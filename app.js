@@ -15,6 +15,10 @@ app.get("/login",function(req,res){
   res.render("login");
 });
 
+app.get("/sign-up",function(req,res){
+  res.render("signup");
+});
+
 app.get("/find", (req,res)=>{
    res.render("find"); 
 });
