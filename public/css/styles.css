@@ -14,10 +14,8 @@ body {
   text-align: center;
   margin: auto;
   margin-top: 15%;
+  margin-left: 30%;
   color: #fff;
   font-family: 'centry Gothic',sans-serif;
 }
 
-.find-button{
-  width: 50%;
-}

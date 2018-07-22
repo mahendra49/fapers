@@ -11,14 +11,17 @@ app.get("/",function(req,res){
     res.render("home");
 });
 
+//login route
 app.get("/login",function(req,res){
   res.render("login");
 });
 
+//register 
 app.get("/sign-up",function(req,res){
   res.render("signup");
 });
 
+//find faper
 app.get("/find", (req,res)=>{
    res.render("find"); 
 });
