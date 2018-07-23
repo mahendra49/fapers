@@ -26,6 +26,15 @@ app.get("/find", (req,res)=>{
    res.render("find"); 
 });
 
+app.get("/findfaper",function(req,res){
+    res.render("fapers");
+});
+
+// login logic goes here
+app.post("/login",function(req,res){
+    console.log("login success");
+    res.render("profile");
+});
 
 app.listen(3000, function() {
     console.log("server has started");
