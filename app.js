@@ -21,6 +21,13 @@ app.use(require("express-session")({
 }));
 
 
+//middleware to provide currently logged in user to every template
+//that next() is important because is then calls next thing ...if not provided not template will be rendered
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 mongoose.connect("mongodb://localhost/faper");
 app.set("view engine","ejs");
 app.use(passport.initialize());
@@ -34,7 +41,9 @@ app.use(bodyparser.urlencoded({ extended: true }));
 
 // route for home page
 app.get("/",function(req,res){
-    res.render("home");
+    //this gives currently logged in user if any
+    //console.log(req.user);
+    res.render("home",{currentUser:req.user});
 });
 
 app.get("/userprofile", isLoggedIn,function(req,res){
@@ -75,8 +84,7 @@ app.post("/login", passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"
 }), function(req, res) {
-        console.log("success log in ");
-        res.render("profile");
+       
 });
 
 
