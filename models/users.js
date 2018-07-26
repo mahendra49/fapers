@@ -8,5 +8,4 @@ var userschema = new mongoose.Schema({
 
 userschema.plugin(passportlocalmongoose);
 
-
 module.exports = mongoose.model("User", userschema);
