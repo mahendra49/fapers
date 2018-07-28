@@ -9,7 +9,11 @@ var express     = require("express"),
     Localstartegy = require("passport-local"),
     passportlocalmongoose = require("passport-local-mongoose");
     User = require("./models/users"),
+    seedDB = require("./seed");
      
+
+//seedDb
+seedDB();
 
 
 //public serving -- css etc
@@ -41,7 +45,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use(bodyparser.urlencoded({ extended: true }));
 
-
 // route for home page
 app.get("/",function(req,res){
     //this gives currently logged in user if any
@@ -60,9 +63,16 @@ app.get("/sign-up",function(req,res){
 
 app.post("/register", function(req, res) {
 
-  User.register(new User({ username: req.body.username }), req.body.password, function(err, user) {
+  var userdata = {
+        username    : req.body.username,
+        college     : req.body.college,
+        email       : req.body.email,
+        phonenumber : req.body.phonenumber,
+  }
+  
+  User.register(userdata, req.body.password, function(err, user) {
         if (err) {
-            console.log("error");
+            console.log(err);
             res.render("signup");
         }
         
