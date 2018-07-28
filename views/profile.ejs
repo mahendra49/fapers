@@ -27,6 +27,7 @@
 
 <body>
   
+<h1><%= currentUser%></h1>
 
 <div class="container">
     <div class="row">
@@ -38,15 +39,16 @@
                     </div>
                     <div class="col-sm-6 col-md-8">
                         <h4>
-                            Bhaumik Patel</h4>
-                        <small><cite title="San Francisco, USA">San Francisco, USA <i class="glyphicon glyphicon-map-marker">
+                            <%= user.username %>
+                        </h4>
+                        <small><cite title="San Francisco, USA"> <%= user.college %> <i class="glyphicon glyphicon-map-marker">
                         </i></cite></small>
                         <p>
-                            <i class="glyphicon glyphicon-envelope"></i>email@example.com
+                            <i class="glyphicon glyphicon-envelope"></i>< <%= user.email %>
                             <br />
                             <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
                             <br />
-                            <i class="glyphicon glyphicon-gift"></i>June 02, 1988</p>
+                            <i class="glyphicon glyphicon-gift"></i> <%= user.phonenumber %></p>
                         <!-- Split button -->
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary">
@@ -60,6 +62,8 @@
         </div>
     </div>
 </div>
+
+<h2><%= user.username %></h2>
 
 </body>
 </html>

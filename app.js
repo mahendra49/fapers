@@ -13,7 +13,7 @@ var express     = require("express"),
      
 
 //seedDb
-seedDB();
+//seedDB();
 
 
 //public serving -- css etc
@@ -53,7 +53,19 @@ app.get("/",function(req,res){
 });
 
 app.get("/userprofile", isLoggedIn,function(req,res){
-    res.render("profile");
+    
+    //this is actually not needed ,we can use req.user 
+    //but just for practice
+    User.find({username:req.user.username},function(err,Luser){
+        if(err){
+            console.log("not signed in maybe : ");
+            res.redirect("/login");
+        }
+        else{
+            console.log(Luser);
+            res.render("profile",{user:Luser[0]});
+        }
+    });
 });
 
 //register 
@@ -77,7 +89,7 @@ app.post("/register", function(req, res) {
         }
         
         passport.authenticate("local")(req, res, function() {
-            res.redirect("/fapers");
+            res.redirect("/userprofile");
         });
     });
 });
