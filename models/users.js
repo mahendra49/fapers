@@ -1,5 +1,5 @@
-var mongoose = require("mongoose");
-var passportlocalmongoose = require("passport-local-mongoose");
+var mongoose                = require("mongoose");
+var passportlocalmongoose   = require("passport-local-mongoose");
 
 var userschema = new mongoose.Schema({
     username:{
@@ -23,7 +23,13 @@ var userschema = new mongoose.Schema({
     college:{
         type:String,
         required:true
-    }
+    },
+    papers : [
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Faper"
+        }
+    ]
    
 });
 

@@ -13,32 +13,27 @@
 <div class="container">
     <!-- jumbotron -->
     <div class="jumbotron">
-        <h1>Find faper</h1>
+        <h1>Post faper</h1>
         <p>Quote goes here</p>
     </div>
     
     <!-- form here -->
     <div class="form-center">
-        <form action="/findfaper" method="get" >
-            <div class="form-group">
-                <label for = "city">City</label>
-                <select id="city" class="form-control" name="city">
-                    <option value="de">Default select</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for = "cit">College</label>
-                <select id="cit" class="form-control " name="college">
-                    <option value="Indian Institute of Technology Delhi">Indian Institute of Technology Delhi</option>
-                    <option value="Indian Institute of Technology Bombay">Indian Institute of Technology Bombay</option>
-                </select>
-            </div>
-
+        <form action="/postpaper" method="POST" >
             <div class="form-group">
                 <label for = "ci">Dept.</label>
                 <select id="ci" class="form-control " name="department">
-                    <option value="de">Default select</option>
+                    <option value="cse">IT/CSE</option>
+                    <option value="mec">MEC</option>
+                    <option value="ece">ECE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for = "subject">Subject</label>
+                <select  id = "subject" class="form-control " name="subject">
+                    <option value="OS">OS</option>
+                    <option value="CSA">CSA</option>
+                    <option value="Networks">networks</option>
                 </select>
             </div>
             <input class="btn btn-primary btn-block" type="submit" value="submit">

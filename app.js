@@ -1,15 +1,16 @@
 //for authentication demo
 // https://medium.com/createdd-notes/starting-with-authentication-a-tutorial-with-node-js-and-mongodb-25d524ca0359
 
-var express     = require("express"),
-    app         = express(),
-    mongoose    = require("mongoose"),
-    passport =require("passport"),
-    bodyparser  = require("body-parser"),
-    Localstartegy = require("passport-local"),
-    passportlocalmongoose = require("passport-local-mongoose");
-    User = require("./models/users"),
-    seedDB = require("./seed");
+var mongoose                        = require("mongoose"),
+    express                         = require("express"),
+    app                             = express(),
+    passport                        =require("passport"),
+    bodyparser                      = require("body-parser"),
+    Localstartegy                   = require("passport-local"),
+    passportlocalmongoose           = require("passport-local-mongoose");
+    Faper                           = require("./models/fapers");
+    User                            = require("./models/users"),
+    seedDB                          = require("./seed"),
      
 
 //seedDb
@@ -52,20 +53,18 @@ app.get("/",function(req,res){
     res.render("home",{currentUser:req.user});
 });
 
+
 app.get("/userprofile", isLoggedIn,function(req,res){
     
-    //this is actually not needed ,we can use req.user 
-    //but just for practice
-    User.find({username:req.user.username},function(err,Luser){
+    User.findOne({username:"mahendra"}).populate("papers").exec(function(err,user){
         if(err){
-            console.log("not signed in maybe : ");
+            console.log(err);
             res.redirect("/login");
-        }
-        else{
-            console.log(Luser);
-            res.render("profile",{user:Luser[0]});
+        }else{
+            res.render("profile",{user:user});
         }
     });
+
 });
 
 //register 
@@ -125,6 +124,48 @@ app.get("/findfaper",function(req,res){
 //fapers
 app.get("/fapers",function(req,res){
     res.render("fapers");
+});
+
+//route to render post a paper page
+app.get("/postpaper",isLoggedIn,function(req,res){
+    res.render("postpaper");
+});
+
+//route to register a paper to a user
+app.post("/postpaper",isLoggedIn,function(req,res){
+    //save to db a paper with owner id
+    var paperdata =  {
+        department:req.body.department,
+        subject:req.body.subject
+
+    }
+
+    Faper.create(paperdata,function(err,paperdata){
+        if(err){
+            console.log("error in crating paper");
+            res.redirect("/postpaper");
+        }
+        else{
+             User.findOne({username:req.user.username},function(err,founduser){
+                if(err){
+                    console.log("error in finding user");
+                    res.redirect("/login");
+                }else{
+                    founduser.papers.push(paperdata);
+                    founduser.save(function(err,data){
+                        if(err){
+                            console.log("error in sacing post, try again");
+                            res.redirect("/postpaper");
+                        }
+                        else{
+                            console.log(data);
+                            res.redirect("/userprofile");
+                        }
+                    });
+                }
+             });
+        }
+    });
 });
 
 app.get("/logout", function(req, res) {

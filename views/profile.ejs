@@ -46,15 +46,17 @@
                         <p>
                             <i class="glyphicon glyphicon-envelope"></i>< <%= user.email %>
                             <br />
-                            <i class="glyphicon glyphicon-globe"></i><a href="http://www.jquery2dotnet.com">www.jquery2dotnet.com</a>
-                            <br />
-                            <i class="glyphicon glyphicon-gift"></i> <%= user.phonenumber %></p>
+                        <i class="glyphicon glyphicon-gift"></i> <%= user.phonenumber %></p>
                         <!-- Split button -->
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary">
-                                Post faper</button>
+                            <a href="/postpaper" class="btn btn-primary">
+                                Post faper</a>
                             <a class="btn btn-secondary" href="/logout">Logout</a> 
                           
+                        </div>
+                        
+                        <div class="all-posts">
+                                <%= user.papers %>
                         </div>
                     </div>
                 </div>
@@ -62,8 +64,6 @@
         </div>
     </div>
 </div>
-
-<h2><%= user.username %></h2>
 
 </body>
 </html>
