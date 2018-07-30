@@ -55,9 +55,15 @@
                           
                         </div>
                         
-                        <div class="all-posts">
-                                <%= user.papers %>
+                        <!-- all posts associated with user -->
+                        <div class="posts">
+                            <ul id="all-posts">
+                                <% for(var q=0;q<user.papers.length;q++){ %>
+                                    <li><%= user.papers[q].subject%></li>
+                                <%}%>
+                            </ul>
                         </div>
+                        
                     </div>
                 </div>
             </div>

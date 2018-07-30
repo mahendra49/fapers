@@ -56,11 +56,12 @@ app.get("/",function(req,res){
 
 app.get("/userprofile", isLoggedIn,function(req,res){
     
-    User.findOne({username:"mahendra"}).populate("papers").exec(function(err,user){
+    User.findOne({username:req.user.username}).populate("papers").exec(function(err,user){
         if(err){
             console.log(err);
             res.redirect("/login");
         }else{
+            console.log(user.papers.length);
             res.render("profile",{user:user});
         }
     });
@@ -95,6 +96,7 @@ app.post("/register", function(req, res) {
 
 //login route
 app.get("/login",function(req,res){
+    console.log(req.body);
     if(req.isAuthenticated()){
         res.redirect("userprofile");
     }
@@ -114,16 +116,35 @@ app.post("/login", passport.authenticate("local", {
 
 //find faper
 app.get("/find", (req,res)=>{
+
    res.render("find"); 
 });
 
-app.get("/findfaper",function(req,res){
-    res.render("fapers");
-});
 
-//fapers
-app.get("/fapers",function(req,res){
-    res.render("fapers");
+//complicated part
+app.get("/findfaper",function(req,res){
+  
+   //stack overflow and mongoose doc comes to rescue
+   var college = req.query.college;
+   var subject = req.query.subject;
+   User.
+   find({college:college},"username").
+   populate({
+    path: 'papers',
+    match: { subject: { $eq: subject }},
+    
+  }).
+  exec(function(err,founddata){
+    if(err){
+        console.log("error in finding data");
+    }
+    else{
+        console.log(founddata[1].papers);
+        console.log(founddata[1].username);
+    }
+  });
+
+    
 });
 
 //route to render post a paper page
