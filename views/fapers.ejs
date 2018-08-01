@@ -20,7 +20,14 @@
 <body>
     <div class="container">
         <h1>quered results results page</h1>
-        
+            
+            <ul>
+                <!-- fapers is plugged in collection of users -->
+                <!-- user has username,email,phohenumber,college -->
+                <%fapers.forEach(function(user){%>
+                    <li><%=user.username%></li>
+                <%})%>
+            </ul>
     </div>
     
 

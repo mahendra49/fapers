@@ -75,14 +75,14 @@ app.get("/sign-up",function(req,res){
 
 app.post("/register", function(req, res) {
 
-  var userdata = {
+    var userdata = {
         username    : req.body.username,
         college     : req.body.college,
         email       : req.body.email,
         phonenumber : req.body.phonenumber,
-  }
+    }
   
-  User.register(userdata, req.body.password, function(err, user) {
+    User.register(userdata, req.body.password, function(err, user) {
         if (err) {
             console.log(err);
             res.render("signup");
@@ -98,7 +98,7 @@ app.post("/register", function(req, res) {
 app.get("/login",function(req,res){
     console.log(req.body);
     if(req.isAuthenticated()){
-        res.redirect("userprofile");
+        res.redirect("/userprofile");
     }
     res.render("login");
 
@@ -124,27 +124,26 @@ app.get("/find", (req,res)=>{
 //complicated part
 app.get("/findfaper",function(req,res){
   
-   //stack overflow and mongoose doc comes to rescue
-   var college = req.query.college;
-   var subject = req.query.subject;
-   User.
-   find({college:college},"username").
-   populate({
-    path: 'papers',
-    match: { subject: { $eq: subject }},
-    
-  }).
-  exec(function(err,founddata){
-    if(err){
-        console.log("error in finding data");
-    }
-    else{
-        console.log(founddata[1].papers);
-        console.log(founddata[1].username);
-    }
-  });
+    /*first get all users with given college
+    then populate the papers field(with only given subject)
+    and then lean to get JS object
+    and finally filter users as some users have zero papers */ 
+    User.find({college:req.query.college}).populate({
+            path: 'papers',
+            match: { subject: { $eq: req.query.subject }},
+        }).lean().
+        exec(function(err,founddata){
+        if(err){
+            console.log("error in finding data");
+        }
+        else{
+            //console.log(founddata);
+            founddata = founddata.filter(function(user){return user.papers.length !=0});
+            console.log(founddata);
+            res.render("fapers",{fapers:founddata});
+        }
+    });
 
-    
 });
 
 //route to render post a paper page
@@ -179,7 +178,7 @@ app.post("/postpaper",isLoggedIn,function(req,res){
                             res.redirect("/postpaper");
                         }
                         else{
-                            console.log(data);
+                            //console.log(data);
                             res.redirect("/userprofile");
                         }
                     });
@@ -203,6 +202,6 @@ function isLoggedIn(req, res, next) {
 }
 
 
-app.listen(3000, function() {
+app.listen(process.env.PORT,process.env.IP, function() {
     console.log("server has started");
 });
