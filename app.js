@@ -7,10 +7,10 @@ var mongoose                        = require("mongoose"),
     passport                        =require("passport"),
     bodyparser                      = require("body-parser"),
     Localstartegy                   = require("passport-local"),
-    passportlocalmongoose           = require("passport-local-mongoose");
-    Faper                           = require("./models/fapers");
+    passportlocalmongoose           = require("passport-local-mongoose"),
+    Faper                           = require("./models/fapers"),
     User                            = require("./models/users"),
-    seedDB                          = require("./seed"),
+    seedDB                          = require("./seed");
      
 
 //seedDb
@@ -35,6 +35,7 @@ app.use(function(req,res,next){
     res.locals.currentUser = req.user;
     next();
 });
+
 
 mongoose.connect("mongodb://localhost/faper");
 app.set("view engine","ejs");
@@ -69,11 +70,11 @@ app.get("/userprofile", isLoggedIn,function(req,res){
 });
 
 //register 
-app.get("/sign-up",function(req,res){
+app.get("/sign-up",isLogged,function(req,res){
   res.render("signup");
 });
 
-app.post("/register", function(req, res) {
+app.post("/register",function(req, res) {
 
     var userdata = {
         username    : req.body.username,
@@ -152,7 +153,7 @@ app.get("/postpaper",isLoggedIn,function(req,res){
 });
 
 //route to register a paper to a user
-app.post("/postpaper",isLoggedIn,function(req,res){
+app.post("/postpaper",isLoggedIn,checkdata,function(req,res){
     //save to db a paper with owner id
     var paperdata =  {
         department:req.body.department,
@@ -188,6 +189,7 @@ app.post("/postpaper",isLoggedIn,function(req,res){
     });
 });
 
+
 app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
@@ -201,7 +203,48 @@ function isLoggedIn(req, res, next) {
     res.redirect("/login");
 }
 
+function isLogged(req, res, next) {
+    if (!req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/");
+}
+
+function checkdata(req,res,next){
+
+
+    User.findOne({username:req.user.username}).populate("papers").lean().exec(function(err,founduser){
+        if(err){
+            console.log("error");
+            res.redirect("/login");
+        }
+        else{
+            var exists=false;
+            var papers = founduser.papers;
+            console.log(papers);
+            papers.forEach(function(paper){
+                if(paper.subject==req.body.subject){
+                    console.log("already exits");
+                    exists=true;
+                    
+                }
+            });
+
+            //is this asynchonous ?? if else is removed
+            if(exists){
+                console.log("in userprofile");
+                res.redirect("/");
+            }else{
+                console.log("near next()");
+                next();
+            }
+            
+        }    
+
+     });   
+
+}
 
 app.listen(process.env.PORT,process.env.IP, function() {
-    console.log("server has started");
+    console.log("server has started"+process.env.IP);
 });
