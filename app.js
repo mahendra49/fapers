@@ -4,15 +4,17 @@
 var mongoose                        = require("mongoose"),
     express                         = require("express"),
     app                             = express(),
-    passport                        =require("passport"),
+    passport                        = require("passport"),
     bodyparser                      = require("body-parser"),
     Localstartegy                   = require("passport-local"),
     passportlocalmongoose           = require("passport-local-mongoose"),
     Faper                           = require("./models/fapers"),
     User                            = require("./models/users"),
     seedDB                          = require("./seed");
-     
 
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
+     
 //seedDb
 //seedDB();
 
@@ -29,6 +31,35 @@ app.use(require("express-session")({
 }));
 
 
+
+//fetch all colleges 
+var colleges;
+MongoClient.connect(url, function(err, db) {
+   if (err) throw err;
+    var dbo = db.db("faper");
+    dbo.collection("colleges").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      colleges=result;
+      db.close();
+    });
+});    
+
+//fetch all subjects
+var subjects;
+MongoClient.connect(url, function(err, db) {
+   if (err) throw err;
+    var dbo = db.db("faper");
+    dbo.collection("subjects").find({}).toArray(function(err, result) {
+      if (err) throw err;
+      subjects=result;
+      db.close();
+    });
+});    
+
+
+
+
+
 //middleware to provide currently logged in user to every template
 //that next() is important because is then calls next thing ...if not provided not template will be rendered
 app.use(function(req,res,next){
@@ -37,7 +68,7 @@ app.use(function(req,res,next){
 });
 
 
-mongoose.connect("mongodb://localhost/faper");
+mongoose.connect("mongodb://localhost:27017/faper");
 app.set("view engine","ejs");
 app.use(passport.initialize());
 app.use(passport.session());
@@ -71,7 +102,7 @@ app.get("/userprofile", isLoggedIn,function(req,res){
 
 //register 
 app.get("/sign-up",isLogged,function(req,res){
-  res.render("signup");
+   res.render("signup",{colleges:colleges});
 });
 
 app.post("/register",function(req, res) {
@@ -117,8 +148,7 @@ app.post("/login", passport.authenticate("local", {
 
 //find faper
 app.get("/find", (req,res)=>{
-
-   res.render("find"); 
+   res.render("find",{colleges:colleges,subjects:subjects});
 });
 
 

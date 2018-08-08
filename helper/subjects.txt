@@ -1,0 +1,67 @@
+Engineering Mathematics-1
+English for Communication
+Engineering Chemistry
+Environmental Studies
+Basic Electrical Engineering
+Introduction to Computers
+English Language Communication Skills Lab
+IT Workshop
+Engineering Graphics Lab
+Engineering Mathematics II 
+Professional Ethics
+Engineering Physics
+Digital Logic Design
+Basic Electronics Engineering
+C- Programming
+Engineering  Physics and Chemistry Lab
+Basic Electronics  Engineering Lab
+Discrete Mathematics 
+Data Structures
+Program Design
+Formal Languages and Automata Theory
+Object Oriented Programming through Java
+Data Structures Lab
+Advanced C Programming Lab
+JAVA Lab
+Technical English
+Data Structures
+Program Design
+Formal Languages and Automata Theory
+Object Oriented Programming through Java
+Compiler Design 
+Design and Analysis of Algorithms
+File Structures
+Principles of Programming Language
+Computer Organization
+Database Management Systems
+Microprocessor and Interfacing 
+Computer Networks
+Soft Computing
+Operating Systems 
+Advanced Java and Web Technologies
+Design Patterns 
+Computer Graphics
+Data Warehousing and Data Mining
+Database Management System 
+Web Technologies 
+Object Oriented Programming Through JAVA 
+Information Security
+Cloud Computing
+Image Processing
+Advanced Computer Architecture 
+Software Engineering
+Embedded Systems
+Distributed Systems 
+Web Services 
+Data Analytics Lab
+Managerial Economics and Financial Analysis 
+E- Commerce 
+Parallel Computing 
+Software Testing Methodologies
+Scripting Languages 
+Human Computer Interaction
+TCP/IP 
+Virtual Reality 
+Secure Database Application Development
+ 
+
