@@ -1,6 +1,3 @@
-* work in fapers view
-* improve UI 
 * REST-ful
-* Test app
 * launch
 * next() 

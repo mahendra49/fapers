@@ -7,11 +7,13 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!------ Include the above in your HEAD tag ---------->
 
     <style type="text/css">
         body{
             padding-top:30px;
+            background: rgb(233, 235, 238);
         }
         .glyphicon {  
             margin-bottom: 10px;margin-right: 10px;
@@ -21,55 +23,51 @@
                 line-height: 1.428571429;
                 color: #999;
         }
+        .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+}
+
+.title {
+    color: grey;
+    font-size: 18px;
+}
+
+
+
+button:hover, a:hover {
+    opacity: 0.7;
+}
     </style>
 
 </head>
 
 <body>
-  
-<h1><%= currentUser%></h1>
+     <!-- Add icon library -->
 
-<div class="container">
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-6">
-            <div class="well well-sm">
-                <div class="row">
-                    <div class="col-sm-6 col-md-4">
-                        <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
-                    </div>
-                    <div class="col-sm-6 col-md-8">
-                        <h4>
-                            <%= user.username %>
-                        </h4>
-                        <small><cite title="San Francisco, USA"> <%= user.college %> <i class="glyphicon glyphicon-map-marker">
-                        </i></cite></small>
-                        <p>
-                            <i class="glyphicon glyphicon-envelope"></i>< <%= user.email %>
-                            <br />
-                        <i class="glyphicon glyphicon-gift"></i> <%= user.phonenumber %></p>
-                        <!-- Split button -->
-                        <div class="btn-group">
-                            <a href="/postpaper" class="btn btn-primary">
-                                Post faper</a>
-                            <a class="btn btn-secondary" href="/logout">Logout</a> 
-                          
-                        </div>
-                        
-                        <!-- all posts associated with user -->
-                        <div class="posts">
-                            <ul id="all-posts">
-                                <% for(var q=0;q<user.papers.length;q++){ %>
-                                    <li><%= user.papers[q].subject%></li>
-                                <%}%>
-                            </ul>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="card">
+  <img src="https://www.incimages.com/uploaded_files/image/970x450/getty_598063032_349381.jpg" alt="John" style="width:100%">
+  <h1><%=user.username %></h1>
+  <p class="title"><%=user.college%></p>
+  <p>My fapers</p>
+    <div class="posts">
+        <ul id="all-posts">
+            <% for(var q=0;q<user.papers.length;q++){ %>
+                <li><%= user.papers[q].subject%></li>
+            <%}%>
+        </ul>
     </div>
-</div>
+    <div class="btn-group">
+        <a href="/postpaper" class="btn btn-primary">
+            Post faper</a>
+        <a class="btn btn-secondary" href="/logout">Logout</a> 
+                          
+    </div>
 
+  
+</div> 
+    
 </body>
 </html>

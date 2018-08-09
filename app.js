@@ -86,14 +86,13 @@ app.get("/",function(req,res){
 });
 
 
-app.get("/userprofile", isLoggedIn,function(req,res){
+app.get("/user", isLoggedIn,function(req,res){
     
     User.findOne({username:req.user.username}).populate("papers").exec(function(err,user){
         if(err){
             console.log(err);
             res.redirect("/login");
         }else{
-            console.log(user.papers.length);
             res.render("profile",{user:user});
         }
     });
@@ -101,8 +100,8 @@ app.get("/userprofile", isLoggedIn,function(req,res){
 });
 
 //register 
-app.get("/sign-up",isLogged,function(req,res){
-   res.render("signup",{colleges:colleges});
+app.get("/register",isLogged,function(req,res){
+   res.render("register",{colleges:colleges});
 });
 
 app.post("/register",function(req, res) {
@@ -117,20 +116,19 @@ app.post("/register",function(req, res) {
     User.register(userdata, req.body.password, function(err, user) {
         if (err) {
             console.log(err);
-            res.render("signup");
+            res.render("register");
         }
         
         passport.authenticate("local")(req, res, function() {
-            res.redirect("/userprofile");
+            res.redirect("/user");
         });
     });
 });
 
 //login route
 app.get("/login",function(req,res){
-    console.log(req.body);
     if(req.isAuthenticated()){
-        res.redirect("/userprofile");
+        res.redirect("/user");
     }
     res.render("login");
 
@@ -170,7 +168,6 @@ app.get("/findfaper",function(req,res){
         else{
             //console.log(founddata);
             founddata = founddata.filter(function(user){return user.papers.length !=0});
-            console.log(founddata);
             res.render("fapers",{fapers:founddata});
         }
     });
@@ -179,7 +176,7 @@ app.get("/findfaper",function(req,res){
 
 //route to render post a paper page
 app.get("/postpaper",isLoggedIn,function(req,res){
-    res.render("postpaper");
+    res.render("postpaper",{subjects:subjects});
 });
 
 //route to register a paper to a user
@@ -210,7 +207,7 @@ app.post("/postpaper",isLoggedIn,checkdata,function(req,res){
                         }
                         else{
                             //console.log(data);
-                            res.redirect("/userprofile");
+                            res.redirect("/user");
                         }
                     });
                 }
@@ -262,11 +259,9 @@ function checkdata(req,res,next){
 
             //is this asynchonous ?? if else is removed
             if(exists){
-                console.log("in userprofile");
                 res.redirect("/");
             }else{
-                console.log("near next()");
-                next();
+               next();
             }
             
         }    

@@ -21,19 +21,11 @@
     <div class="form-center">
         <form action="/postpaper" method="POST" >
             <div class="form-group">
-                <label for = "ci">Dept.</label>
-                <select id="ci" class="form-control " name="department">
-                    <option value="cse">IT/CSE</option>
-                    <option value="mec">MEC</option>
-                    <option value="ece">ECE</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for = "subject">Subject</label>
+                <label for = "cit">Subject</label>
                 <select  id = "subject" class="form-control " name="subject">
-                    <option value="OS">OS</option>
-                    <option value="CSA">CSA</option>
-                    <option value="Networks">networks</option>
+                   <%subjects.forEach(function(subject){ %>
+                        <option value="<%=subject.subject%>"><%=subject.subject%></option>
+                    <%})%>
                 </select>
             </div>
             <input class="btn btn-primary btn-block" type="submit" value="submit">

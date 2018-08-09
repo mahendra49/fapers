@@ -9,11 +9,11 @@
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <% if(!currentUser){ %>
-            <li><a href="/sign-up"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="/register"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                
         <% } else { %>
-            <li><a href="/userprofile"><span class="glyphicon glyphicon-user"></span>Hello, <%= currentUser.username %> </a></li>
+            <li><a href="/user"><span class="glyphicon glyphicon-user"></span>Hello, <%= currentUser.username %> </a></li>
             <li><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
             
         <% } %>
