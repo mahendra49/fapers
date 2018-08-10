@@ -14,7 +14,7 @@ var mongoose                        = require("mongoose"),
     flash                           = require("connect-flash");
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://mahendra:mahiiaM986@ds247121.mlab.com:47121/faper";
+var url = process.env.DATABASEURL;
      
 //seedDb
 //seedDB();
@@ -70,7 +70,7 @@ app.use(function(req,res,next){
 });
 
 
-mongoose.connect("mongodb://mahendra:mahiiaM986@ds247121.mlab.com:47121/faper");
+mongoose.connect(process.env.DATABASEURL);
 app.set("view engine","ejs");
 app.use(passport.initialize());
 app.use(passport.session());
