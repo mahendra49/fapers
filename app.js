@@ -11,17 +11,23 @@ var mongoose                        = require("mongoose"),
     Faper                           = require("./models/fapers"),
     User                            = require("./models/users"),
     seedDB                          = require("./seed"),
-    flash                           = require("connect-flash");
+    flash                           = require("connect-flash"),
+    getColleges                     = require("./helper/collegeDB"),
+    getSubjects                     = require("./helper/subjectDB");
 
 var MongoClient = require('mongodb').MongoClient;
 var url = process.env.DATABASEURL;
      
-//seedDb
+
 //seedDB();
+//getColleges();
+//getSubjects();
 
 
 //public serving -- css etc
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/helper'));
+
 app.use(flash());
 
 passport.use(new Localstartegy(User.authenticate()));

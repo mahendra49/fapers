@@ -1,4 +1,3 @@
-Abhilashi University
 Acharya N.G. Ranga Agricultural University
 Acharya Nagarjuna University
 Adamas University
@@ -877,3 +876,4 @@ Yenepoya University
 YMCA University of Science and Technology
 Yogi Vemana University
 Add University
+Prasad V. Potluri Siddhartha Institute of Technology
