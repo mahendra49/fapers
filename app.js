@@ -10,7 +10,8 @@ var mongoose                        = require("mongoose"),
     passportlocalmongoose           = require("passport-local-mongoose"),
     Faper                           = require("./models/fapers"),
     User                            = require("./models/users"),
-    seedDB                          = require("./seed");
+    seedDB                          = require("./seed"),
+    flash                           = require("connect-flash");
 
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
@@ -21,6 +22,7 @@ var url = "mongodb://localhost:27017/";
 
 //public serving -- css etc
 app.use(express.static(__dirname + '/public'));
+app.use(flash());
 
 passport.use(new Localstartegy(User.authenticate()));
 
@@ -37,7 +39,7 @@ var colleges;
 MongoClient.connect(url, function(err, db) {
    if (err) throw err;
     var dbo = db.db("faper");
-    dbo.collection("colleges").find({}).toArray(function(err, result) {
+    dbo.collection("colleges").find({}).sort({college:1}).toArray(function(err, result) {
       if (err) throw err;
       colleges=result;
       db.close();
@@ -82,7 +84,7 @@ app.use(bodyparser.urlencoded({ extended: true }));
 app.get("/",function(req,res){
     //this gives currently logged in user if any
     //console.log(req.user);
-    res.render("home",{currentUser:req.user});
+    res.render("home",{currentUser:req.user,message:req.flash("logout")});
 });
 
 
@@ -127,10 +129,11 @@ app.post("/register",function(req, res) {
 
 //login route
 app.get("/login",function(req,res){
+
     if(req.isAuthenticated()){
         res.redirect("/user");
     }
-    res.render("login");
+    res.render("login",{message:req.flash("error")});
 
 });
 
@@ -146,7 +149,7 @@ app.post("/login", passport.authenticate("local", {
 
 //find faper
 app.get("/find", (req,res)=>{
-   res.render("find",{colleges:colleges,subjects:subjects});
+    res.render("find",{colleges:colleges,subjects:subjects});
 });
 
 
@@ -219,6 +222,7 @@ app.post("/postpaper",isLoggedIn,checkdata,function(req,res){
 
 app.get("/logout", function(req, res) {
     req.logout();
+    req.flash("logout","logged you out");
     res.redirect("/");
 });
 
@@ -227,6 +231,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
+    req.flash("error","Please login");
     res.redirect("/login");
 }
 
