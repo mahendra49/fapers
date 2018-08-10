@@ -17,11 +17,11 @@ var mongoose                        = require("mongoose"),
 
 var MongoClient = require('mongodb').MongoClient;
 var url = process.env.DATABASEURL;
-     
+console.log(url);     
 
 //seedDB();
-//getColleges();
-//getSubjects();
+getColleges();
+getSubjects();
 
 
 //public serving -- css etc
