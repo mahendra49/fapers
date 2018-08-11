@@ -12,16 +12,14 @@ var mongoose                        = require("mongoose"),
     User                            = require("./models/users"),
     seedDB                          = require("./seed"),
     flash                           = require("connect-flash"),
-    getColleges                     = require("./helper/collegeDB"),
-    getSubjects                     = require("./helper/subjectDB");
+    Colleges                        = require("./helper/collegeDB"),
+    Subjects                        = require("./helper/subjectDB");
 
 var MongoClient = require('mongodb').MongoClient;
 var url = process.env.DATABASEURL;
 console.log(url);     
 
-//seedDB();
-getColleges();
-getSubjects();
+
 
 
 //public serving -- css etc
@@ -37,32 +35,6 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false
 }));
-
-
-
-//fetch all colleges 
-var colleges;
-MongoClient.connect(url, function(err, db) {
-   if (err) throw err;
-    var dbo = db.db("faper");
-    dbo.collection("colleges").find({}).sort({college:1}).toArray(function(err, result) {
-      if (err) throw err;
-      colleges=result;
-      db.close();
-    });
-});    
-
-//fetch all subjects
-var subjects;
-MongoClient.connect(url, function(err, db) {
-   if (err) throw err;
-    var dbo = db.db("faper");
-    dbo.collection("subjects").find({}).toArray(function(err, result) {
-      if (err) throw err;
-      subjects=result;
-      db.close();
-    });
-});    
 
 
 
@@ -109,7 +81,9 @@ app.get("/user", isLoggedIn,function(req,res){
 
 //register 
 app.get("/register",isLogged,function(req,res){
-   res.render("register",{colleges:colleges});
+    Colleges.find({}).sort({college:1}).exec(function(err,colleges){
+        res.render("register",{colleges:colleges});
+    });
 });
 
 app.post("/register",function(req, res) {
@@ -155,7 +129,21 @@ app.post("/login", passport.authenticate("local", {
 
 //find faper
 app.get("/find", (req,res)=>{
-    res.render("find",{colleges:colleges,subjects:subjects});
+    Colleges.find({}).sort({college:1}).exec(function(err,colleges){
+        if(err){
+            res.redirect("/");
+        }
+        else{
+            Subjects.find({},function(err,subjects){
+                if(err){
+                    res.redirect("/")
+                }
+                else{
+                    res.render("find",{colleges:colleges,subjects:subjects});
+                }
+            });
+        }
+    });
 });
 
 
