@@ -173,7 +173,14 @@ app.get("/findfaper",function(req,res){
 
 //route to render post a paper page
 app.get("/postpaper",isLoggedIn,function(req,res){
-    res.render("postpaper",{subjects:subjects});
+    Subjects.find({},function(err,subjects){
+        if(err){
+            res.redirect("/");
+        }
+        else{
+             res.render("postpaper",{subjects:subjects});
+        }
+    });    
 });
 
 //route to register a paper to a user
